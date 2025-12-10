@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V-AUTON | API Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<script src="script.js" defer></script>
+
+<style>
+    :root {
+        --sidebar-w: 260px;
+        --bg: #0d0d0d;
+        --sidebar-bg: #050505;
+        --border: #222;
+        --accent: #3b82f6;
+        --text: #e5e5e5;
+        --code-bg: #151515;
+    }
+
+    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar {
+        width: var(--sidebar-w); position: fixed; height: 100vh; background: var(--sidebar-bg); border-right: 1px solid var(--border);
+        padding: 30px; display: flex; flex-direction: column;
+    }
+    .brand { font-weight: 700; color: #fff; text-decoration: none; margin-bottom: 40px; display: block; }
+    .menu-label { font-size: 0.75rem; color: #666; font-weight: 600; margin-bottom: 15px; letter-spacing: 0.05em; }
+    .menu-link {
+        color: #999; text-decoration: none; display: block; padding: 8px 0; font-size: 0.9rem; transition: 0.2s;
+    }
+    .menu-link:hover, .menu-link.active { color: var(--accent); }
+    .menu-link.active { font-weight: 600; }
+
+    /* Main Content */
+    .main-content { margin-left: var(--sidebar-w); padding: 60px 80px; max-width: 900px; width: 100%; }
+
+    h1 { font-size: 2.5rem; margin-bottom: 10px; }
+    .subtitle { color: #888; font-size: 1.2rem; margin-bottom: 50px; }
+    
+    .endpoint-box { margin-bottom: 60px; }
+    .badge { background: #222; color: var(--accent); padding: 4px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; margin-right: 10px; }
+    
+    /* Code Block */
+    .code-window {
+        background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px;
+        font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; overflow-x: auto; margin-top: 20px;
+        color: #a5d6ff;
+    }
+    .k { color: #ff7b72; } /* Keyword */
+    .s { color: #a5d6ff; } /* String */
+    .c { color: #8b949e; } /* Comment */
+
+    @media(max-width: 800px) { .sidebar { display: none; } .main-content { margin-left: 0; padding: 20px; } }
+</style>
+</head>
+<body>
+    <nav class="sidebar">
+        <a href="index.html" class="brand">V-AUTON API</a>
+        
+        <div class="menu-label">GETTING STARTED</div>
+        <a href="#" class="menu-link active">Introduction</a>
+        <a href="#" class="menu-link">Authentication</a>
+        <a href="#" class="menu-link">Rate Limits</a>
+        
+        <div class="menu-label" style="margin-top:30px;">ENDPOINTS</div>
+        <a href="#" class="menu-link">POST /trajectory</a>
+        <a href="#" class="menu-link">POST /simulate</a>
+        <a href="#" class="menu-link">GET /status</a>
+    </nav>
+
+    <main class="main-content">
+        <h1>Introduction</h1>
+        <div class="subtitle">Programmatic access to the V-AUTON foundation model.</div>
+
+        <p style="line-height:1.6; color:#ccc;">
+            The V-AUTON API provides a RESTful interface to interact with our robotics foundation models. 
+            You can generate trajectories, validate URDF files, and run kinematic simulations directly via HTTP requests.
+            All requests must be authenticated via Bearer Token.
+        </p>
+
+        <div class="endpoint-box">
+            <h3 style="margin-top:50px;">Generate Trajectory</h3>
+            <p style="color:#888; margin-bottom:20px;">Generates a sequence of waypoints based on a natural language instruction and robot constraints.</p>
+            
+            <div class="code-window">
+<span class="c">// Request Example</span>
+curl -X POST https://api.v-auton.com/v1/trajectory \
+  -H <span class="s">"Authorization: Bearer YOUR_KEY"</span> \
+  -H <span class="s">"Content-Type: application/json"</span> \
+  -d '{
+    <span class="k">"model"</span>: <span class="s">"v-auton-70b"</span>,
+    <span class="k">"instruction"</span>: <span class="s">"Pick up the red gear and place it on the axle"</span>,
+    <span class="k">"robot_config"</span>: {
+      <span class="k">"type"</span>: <span class="s">"ur5e"</span>,
+      <span class="k">"max_velocity"</span>: 0.5
+    }
+  }'
+            </div>
+
+            <div class="code-window" style="border-left: 2px solid #238636;">
+<span class="c">// Response (200 OK)</span>
+{
+  <span class="k">"id"</span>: <span class="s">"traj_8923nsd2"</span>,
+  <span class="k">"status"</span>: <span class="s">"success"</span>,
+  <span class="k">"waypoints"</span>: [
+    [0.23, 0.45, 0.12, 0.0, 1.57, 0.0],
+    [0.24, 0.46, 0.15, 0.0, 1.57, 0.0]
+  ],
+  <span class="k">"physics_check"</span>: <span class="k">true</span>
+}
+            </div>
+        </div>
+    </main>
+</body>
+</html>

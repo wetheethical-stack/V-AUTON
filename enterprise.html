@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V-AUTON | Enterprise</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="script.js" defer></script>
+
+<style>
+    :root {
+        --bg: #000000;
+        --card-bg: #111111;
+        --border: #333;
+        --white: #ffffff;
+        --blue: #2563eb;
+    }
+    
+    body { background: var(--bg); color: var(--white); font-family: 'Inter', sans-serif; margin: 0; }
+    
+    .nav-top { padding: 20px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand { font-weight: 700; text-decoration: none; color: white; letter-spacing: -0.02em; }
+    .btn-contact { background: var(--white); color: black; padding: 10px 20px; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: 0.2s; }
+    .btn-contact:hover { background: #ccc; }
+
+    .header-section { text-align: center; padding: 100px 20px; max-width: 800px; margin: 0 auto; }
+    .header-section h1 { font-size: 3.5rem; letter-spacing: -0.04em; margin-bottom: 20px; }
+    .header-section p { color: #888; font-size: 1.2rem; line-height: 1.5; }
+
+    /* Bento Grid */
+    .bento-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 300px);
+        gap: 20px;
+        max-width: 1200px; margin: 0 auto 100px auto; padding: 0 20px;
+    }
+
+    .card {
+        background: var(--card-bg);
+        border: 1px solid #222;
+        border-radius: 12px;
+        padding: 40px;
+        display: flex; flex-direction: column; justify-content: space-between;
+        transition: 0.3s;
+    }
+    .card:hover { border-color: #555; transform: translateY(-2px); }
+
+    .card.large { grid-column: span 2; }
+    .card.tall { grid-row: span 2; background: linear-gradient(180deg, #1a1a1a 0%, #050505 100%); }
+
+    h3 { font-size: 1.5rem; margin: 0 0 10px 0; font-weight: 600; }
+    .card p { color: #888; line-height: 1.6; }
+    .icon { font-size: 2rem; margin-bottom: 20px; color: var(--blue); }
+
+    /* Footer Trust */
+    .trust-strip { border-top: 1px solid var(--border); padding: 60px 0; text-align: center; color: #444; }
+    .trust-logos { display: flex; justify-content: center; gap: 60px; margin-top: 30px; opacity: 0.5; font-weight: 600; font-size: 1.2rem; }
+
+    @media(max-width: 1024px) { .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; } .card.large, .card.tall { grid-column: auto; grid-row: auto; min-height: 300px; } }
+</style>
+</head>
+<body>
+    <nav class="nav-top">
+        <a href="index.html" class="nav-brand">V-AUTON / ENTERPRISE</a>
+        <a href="mailto:sales@v-auton.com" class="btn-contact">Contact Sales</a>
+    </nav>
+
+    <section class="header-section">
+        <h1>Deploy at Scale.</h1>
+        <p>From air-gapped manufacturing floors to cloud-connected logistics fleets. Secure, compliant, and ready for production.</p>
+    </section>
+
+    <div class="bento-grid">
+        <div class="card large">
+            <div>
+                <div class="icon">⚡</div>
+                <h3>Edge Inference</h3>
+                <p>Run the 7B Quantized model directly on NVIDIA Jetson Orin or AGX. < 12ms latency for real-time control loops without internet connectivity.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div>
+                <div class="icon">🔒</div>
+                <h3>Air-Gapped</h3>
+                <p>Full offline capability. No data leaves your facility. Compliant with DoD and heavy industry security standards.</p>
+            </div>
+        </div>
+
+        <div class="card tall">
+            <div>
+                <div class="icon">🧠</div>
+                <h3>Fine-Tuning</h3>
+                <p>Upload your custom URDFs and G-Code history. We create a LoRA adapter specifically for your robot morphology.</p>
+            </div>
+            <div style="margin-top:40px; border-top:1px solid #333; padding-top:20px; font-size:0.9rem; color:#666;">
+                Supported Formats:<br>
+                • URDF / SDF<br>
+                • ROS 2 Bags<br>
+                • Python / C++
+            </div>
+        </div>
+
+        <div class="card large">
+            <div>
+                <div class="icon">🤝</div>
+                <h3>SLA & Support</h3>
+                <p>24/7 Dedicated engineering support. 99.99% Uptime SLA for API endpoints. On-site integration assistance available.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="trust-strip">
+        TRUSTED BY ENGINEERING TEAMS AT
+        <div class="trust-logos">
+            <span>AUTOMATA</span>
+            <span>DYNAMICS</span>
+            <span>CYBERNETICS</span>
+            <span>KINETIC</span>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="V-AUTON: The world's first robotics-native Large Language Model.">
+<title>V-AUTON | The Singularity of Intelligence</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
+
+<script src="script.js" defer></script>
+
+<style>
+    /* ==========================================================================
+       CORE STYLES (PRESERVED & OPTIMIZED)
+       ========================================================================== */
+    :root {
+        --void-deep: #030304;
+        --plasma-blue: #3b82f6;
+        --plasma-cyan: #06b6d4;
+        --glass-surface: rgba(15, 15, 20, 0.6);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --glass-blur: 24px;
+        --font-sans: 'Space Grotesk', sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
+        --ease-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+        background-color: var(--void-deep);
+        color: #e2e8f0;
+        font-family: var(--font-sans);
+        overflow-x: hidden;
+        min-height: 100vh;
+        width: 100%;
+        margin: 0;
+    }
+
+    /* Cinematic Noise Overlay */
+    .noise-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none; z-index: 999; mix-blend-mode: overlay;
+    }
+
+    #cosmos-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; }
+
+    .viewport { position: relative; z-index: 100; width: 100%; }
+
+    /* Navigation */
+    .navbar {
+        position: fixed; top: 0; left: 0; width: 100%; padding: 24px 48px;
+        display: flex; justify-content: space-between; align-items: center; z-index: 800;
+        background: linear-gradient(180deg, rgba(3,3,4,0.95) 0%, transparent 100%);
+        backdrop-filter: blur(4px);
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.25rem; color: #fff; }
+    .brand-mark { width: 12px; height: 12px; background: var(--plasma-blue); box-shadow: 0 0 15px var(--plasma-blue); transform: rotate(45deg); }
+    
+    .nav-links { display: flex; gap: 32px; font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; color: #94a3b8; }
+    .nav-link { cursor: pointer; transition: 0.3s; }
+    .nav-link:hover { color: #fff; text-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+    .nav-cta { color: var(--plasma-cyan); font-weight: 700; }
+
+    section { position: relative; padding: 140px 48px; max-width: 1600px; margin: 0 auto; }
+
+    /* Hero & Typography */
+    #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-top: 120px; }
+    .hero-wrapper { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
+
+    .hero-tag {
+        font-family: var(--font-mono); color: var(--plasma-cyan); font-size: 0.75rem; letter-spacing: 0.2em; margin-bottom: 24px;
+        display: inline-block; padding: 6px 12px; background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 2px;
+    }
+
+    h1 { font-size: clamp(3.5rem, 6vw, 6.5rem); line-height: 1.05; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 32px; color: #fff; }
+    .gradient-text { background: linear-gradient(135deg, #fff 40%, #94a3b8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-desc { font-size: 1.15rem; color: #cbd5e1; line-height: 1.6; max-width: 580px; margin-bottom: 48px; font-weight: 300; }
+
+    /* Auth Module */
+    .auth-module {
+        background: var(--glass-surface); border: 1px solid var(--glass-border); padding: 40px; border-radius: 12px;
+        backdrop-filter: blur(var(--glass-blur)); box-shadow: 0 40px 80px rgba(0,0,0,0.5); position: relative; overflow: hidden;
+        transform-style: preserve-3d; transform: perspective(1000px);
+    }
+    .auth-module::after {
+        content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+        background: linear-gradient(125deg, transparent 30%, rgba(255,255,255,0.05) 45%, transparent 60%);
+        transform: translateX(-100%); transition: transform 0.6s; pointer-events: none;
+    }
+    .auth-module:hover::after { transform: translateX(100%); }
+
+    .input-row { margin-bottom: 16px; }
+    .input {
+        width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
+        color: #fff; padding: 18px; border-radius: 6px; font-family: var(--font-mono); font-size: 0.9rem; transition: 0.3s;
+    }
+    .input:focus { outline: none; border-color: var(--plasma-blue); background: rgba(0,0,0,0.7); box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
+
+    .btn-submit {
+        width: 100%; background: #fff; color: #000; border: none; padding: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+        border-radius: 6px; cursor: pointer; transition: 0.2s; position: relative; overflow: hidden; margin-top: 10px;
+    }
+    .btn-submit:hover { background: var(--plasma-blue); color: #fff; box-shadow: 0 0 40px rgba(59, 130, 246, 0.4); transform: translateY(-2px); }
+    .btn-submit:disabled { opacity: 0.7; cursor: wait; }
+
+    /* Features & Pricing */
+    .section-title { font-size: 3rem; margin-bottom: 20px; font-weight: 700; letter-spacing: -0.02em; }
+    .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+    
+    .feature-card, .price-card {
+        background: var(--glass-surface); border: 1px solid var(--glass-border); padding: 40px; border-radius: 12px;
+        transform-style: preserve-3d; transform: perspective(1000px); transition: transform 0.1s ease-out;
+    }
+    .price-card.featured { border-color: var(--plasma-blue); background: rgba(59, 130, 246, 0.05); }
+
+    .f-icon { width: 50px; height: 50px; border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; color: var(--plasma-blue); font-family: var(--font-mono); margin-bottom: 25px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; }
+    .f-title { font-size: 1.5rem; margin-bottom: 15px; font-weight: 700; }
+    .f-desc { color: #94a3b8; line-height: 1.6; }
+
+    /* Tech Specs */
+    #specs { border: 1px solid var(--glass-border); border-radius: 16px; padding: 60px; background: rgba(5,5,7,0.8); margin-top: 100px; }
+    .spec-table { width: 100%; border-collapse: collapse; font-family: var(--font-mono); }
+    .spec-table tr { border-bottom: 1px solid var(--glass-border); }
+    .spec-table td { padding: 24px 0; color: #94a3b8; font-size: 0.9rem; }
+    .spec-table td:last-child { text-align: right; color: var(--plasma-cyan); }
+
+    footer { background: #000; padding: 80px 48px; border-top: 1px solid #222; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; font-family: var(--font-mono); font-size: 0.8rem; color: #64748b; }
+
+    /* Utilities */
+    .fade-up { opacity: 0; transform: translateY(40px); transition: 1s var(--ease-expo); }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 0.1s; } .delay-2 { transition-delay: 0.2s; } .delay-3 { transition-delay: 0.3s; }
+
+    @media (max-width: 1024px) {
+        .hero-wrapper { grid-template-columns: 1fr; text-align: center; }
+        .hero-desc, .auth-module { margin: 0 auto 48px auto; text-align: left; }
+        .nav-links { display: none; }
+        h1 { font-size: 3.5rem; }
+        #cosmos-canvas { opacity: 0.6; }
+        footer { grid-template-columns: 1fr; text-align: center; }
+    }
+</style>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <canvas id="cosmos-canvas"></canvas>
+    
+    <div class="viewport">
+        <nav class="navbar">
+            <div class="brand"><div class="brand-mark"></div> V-AUTON</div>
+            <div class="nav-links">
+                <span class="nav-link">NEURAL ARCHITECTURE</span>
+                <span class="nav-link">ENTERPRISE SOLUTIONS</span>
+                <span class="nav-cta nav-link">ACCESS API</span>
+            </div>
+        </nav>
+
+        <section id="hero">
+            <div class="hero-wrapper">
+                <div class="hero-text">
+                    <div class="hero-tag fade-up">ROBOTICS FOUNDATION MODEL v1.0</div>
+                    <h1 class="fade-up delay-1"><span class="gradient-text decrypt-effect" data-value="PHYSICS">PHYSICS</span><br>IS NO LONGER<br>HARD-CODED.</h1>
+                    <p class="hero-desc fade-up delay-2">The first LLM engineered to understand URDF constraints, inertial dynamics, and real-world friction. Zero-shot transfer from Isaac Sim to physical hardware.</p>
+                    
+                    <div class="auth-module fade-up delay-3 tilt-target">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-family:var(--font-mono); font-size:0.7rem; color:#64748b;">
+                            <span>EARLY ACCESS PORTAL</span><span style="color:var(--plasma-cyan);">● SECURE GATEWAY</span>
+                        </div>
+                        <form id="signup-form">
+                            <div class="input-row"><input type="email" id="user-email" class="input" placeholder="WORK EMAIL" required></div>
+                            <div class="input-row"><input type="text" id="user-org" class="input" placeholder="ORGANIZATION / LAB" required></div>
+                            <button class="btn-submit" type="submit">Initialize Sequence</button>
+                        </form>
+                    </div>
+                </div>
+                <div></div>
+            </div>
+        </section>
+
+        <section id="features">
+            <div class="section-head fade-up">
+                <div style="font-family:var(--font-mono); color:var(--plasma-blue); margin-bottom:10px;">CORE ARCHITECTURE</div>
+                <h2 class="section-title">Beyond Text Generation</h2>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card tilt-target fade-up delay-1">
+                    <div class="f-icon">01</div><div class="f-title">Implicit Physics</div><div class="f-desc">The model cannot output a trajectory that violates the robot's joint limits or collision mesh.</div>
+                </div>
+                <div class="feature-card tilt-target fade-up delay-2">
+                    <div class="f-icon">02</div><div class="f-title">Sim-to-Real</div><div class="f-desc">Trained on 100M+ hours of simulation logs. Policies deployed to hardware achieve 99.8% success rates.</div>
+                </div>
+                <div class="feature-card tilt-target fade-up delay-3">
+                    <div class="f-icon">03</div><div class="f-title">Edge Native</div><div class="f-desc">Distilled models (7B, 13B) optimized for NVIDIA Jetson Orin with < 12ms inference latency.</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tech">
+             <div id="specs" class="fade-up">
+                <h3 style="margin-bottom:30px; font-family:var(--font-mono);">KERNEL SPECIFICATIONS</h3>
+                <table class="spec-table">
+                    <tr><td>Architecture</td><td>Sparse Mixture of Experts (Robotics MoE)</td></tr>
+                    <tr><td>Context Window</td><td>128k Tokens (Multimodal Sensor Fusion)</td></tr>
+                    <tr><td>Training Data</td><td>50TB (URDF, G-Code, Python, ROS Bags)</td></tr>
+                    <tr><td>Safety</td><td>ISO 26262 Compliant Guardrails</td></tr>
+                </table>
+             </div>
+        </section>
+
+        <footer>
+            <div>
+                <div style="font-weight:700; color:#fff; margin-bottom:20px; font-size:1.2rem;">V-AUTON</div>
+                <p>Building the brain for the next generation of physical machines.</p>
+            </div>
+            <div style="text-align:right;">
+                <div style="margin-bottom:10px;">• BENGALURU</div>
+                <div>
+  © 2025 V-AUTON INC. built by 
+  <a href="https://rolehivex.vercel.app/" target="_blank" rel="noopener noreferrer">
+    RoleHiveX
+  </a>
+</div>
+
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
